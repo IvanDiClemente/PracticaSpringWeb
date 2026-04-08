@@ -34,10 +34,8 @@ public class SaleService{
         try{
             if((product=serviceProduct.findById(IDProducto))!=null){
                 if((user=serviceUser.findById(idCliente))!=null){
-
                     save(SaleEntity.builder().id(1L).products(serviceProduct.findById(IDProducto))
                             .client(serviceUser.findById(idCliente)).saleDate(LocalDate.now()).build());
-
                 }else{
                     throw new UserNotFoundException("Oh no bro");
                 }
@@ -62,10 +60,11 @@ public class SaleService{
         sales.save(sale);
     }
 
-    public void delete(SaleEntity sale) {
+    public void delete(SaleEntity sale){
         try{
             for(SaleEntity e:sales.findAll()){
                 if(e.getId()==sale.getId()){
+                    sales.delete(sale);
                     return;
                 }
             }
@@ -81,6 +80,7 @@ public class SaleService{
             for(SaleEntity e:sales.findAll()){
                 if(e.getId()==sale.getId()){
                     sales.update(sale);
+                    return;
                 }
             }
             throw new SaleNotFoundException("Oh no bro");
