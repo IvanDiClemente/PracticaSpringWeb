@@ -4,7 +4,7 @@ package org.eduardomango.practicaspringweb.model.controllers;
 @RequestMapping
 public class UserController {
 
-
+adghfuiah
     public UserController() {
     }
 }
