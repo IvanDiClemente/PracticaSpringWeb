@@ -50,6 +50,10 @@ public class UserRepository implements IRepository<UserEntity> {
 
     public void update(UserEntity user) {
         int index = users.indexOf(user);
-        users.set(index, user);
+        System.out.println(index);
+        if(index!=-1)
+        {
+            users.set(index, user);
+        }
     }
 }
