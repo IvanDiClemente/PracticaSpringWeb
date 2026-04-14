@@ -3,8 +3,8 @@ package org.eduardomango.practicaspringweb.model.controllers;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import org.apache.catalina.User;
+import org.springframework.http.ResponseEntity;
 import org.eduardomango.practicaspringweb.model.entities.UserEntity;
-import org.eduardomango.practicaspringweb.model.services.SaleService;
 import org.eduardomango.practicaspringweb.model.services.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +20,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<UserEntity> retornarTodosLosUsuarios(){
-        return userService.findAll();
+    public ResponseEntity<List<UserEntity>> retornarTodosLosUsuarios(){
+        return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/{id}")
