@@ -3,6 +3,8 @@ package org.eduardomango.practicaspringweb.model.controllers;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import org.apache.catalina.User;
+import org.apache.coyote.Response;
+import org.eduardomango.practicaspringweb.model.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -45,19 +47,45 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserEntity> crearUsuario(@RequestBody UserEntity user){
-        userService.save(user);
-        return ResponseEntity.ok().body(user);
+        try{
+            if(userService.findById(user.getId())==null){
+                userService.save(user);
+                return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+            }else{
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            }
+        }catch(UserNotFoundException e){
+            userService.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
     }
 
     @PutMapping("/{id}")
-    public void actualizarUsuario(@PathVariable long id, @RequestBody UserEntity user){
-        System.out.println(user);
-        userService.update(user);
+    public ResponseEntity<UserEntity> actualizarUsuario(@PathVariable long id, @RequestBody UserEntity user){
+        try{
+            if(userService.findById(id)!=null){
+                userService.update(user);
+                return ResponseEntity.ok().body(user);
+            }else{
+                throw new UserNotFoundException();
+            }
+        }catch(UserNotFoundException e){
+            System.out.println("An error has occurred: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarUsuario(@PathVariable long id){
-        userService.delete(userService.findById(id));
-    }
+    public ResponseEntity<UserEntity> eliminarUsuario(@PathVariable long id){
+        try{
+            userService.delete(userService.findById(id));
+            return ResponseEntity.noContent().build();
+        }catch(UserNotFoundException e){
+            System.out.println("An error has occurred: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
 
+    }
 }

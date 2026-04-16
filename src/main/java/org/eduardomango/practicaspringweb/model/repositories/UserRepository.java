@@ -13,7 +13,6 @@ public class UserRepository implements IRepository<UserEntity> {
 
     public UserRepository() {
         this.users = new ArrayList<>();
-
         users.add(new UserEntity(1, "alice", "alice@example.com", "password1"));
         users.add(new UserEntity(2, "bob", "bob@example.com", "password2"));
         users.add(new UserEntity(3, "charlie", "charlie@example.com", "password3"));

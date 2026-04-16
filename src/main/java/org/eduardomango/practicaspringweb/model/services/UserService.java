@@ -20,6 +20,7 @@ public class UserService {
     public List<UserEntity> findAll() {
         return userRepository.findAll();
     }
+
     public UserEntity findById(long id) {
         return userRepository.findAll()
                 .stream()
